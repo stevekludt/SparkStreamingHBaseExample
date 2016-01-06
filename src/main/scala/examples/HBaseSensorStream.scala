@@ -17,7 +17,7 @@ import org.apache.spark.streaming.Seconds
 import org.apache.spark.streaming.StreamingContext
 
 object HBaseSensorStream {
-  final val tableName = "/user/user01/sensor"
+  final val tableName = "sensor"
   final val cfDataBytes = Bytes.toBytes("data")
   final val cfAlertBytes = Bytes.toBytes("alert")
   final val colHzBytes = Bytes.toBytes("hz")
@@ -68,7 +68,7 @@ object HBaseSensorStream {
     val conf = HBaseConfiguration.create()
     conf.set(TableOutputFormat.OUTPUT_TABLE, tableName)
     val jobConfig: JobConf = new JobConf(conf, this.getClass)
-    jobConfig.set("mapreduce.output.fileoutputformat.outputdir", "/user/user01/out")
+    jobConfig.set("mapreduce.output.fileoutputformat.outputdir", "/home/stevekludt/out")
     jobConfig.setOutputFormat(classOf[TableOutputFormat])
     jobConfig.set(TableOutputFormat.OUTPUT_TABLE, tableName)
 
@@ -77,13 +77,13 @@ object HBaseSensorStream {
     val ssc = new StreamingContext(sparkConf, Seconds(2))
 
     // parse the lines of data into sensor objects
-    val sensorDStream = ssc.textFileStream("/user/user01/stream").map(Sensor.parseSensor)
+    val sensorDStream = ssc.textFileStream("/home/stevekludt/stream").map(Sensor.parseSensor)
     sensorDStream.print()
 
     sensorDStream.foreachRDD { rdd =>
       // filter sensor data for low psi
       val alertRDD = rdd.filter(sensor => sensor.psi < 5.0)
-      alertRDD.take(1).foreach(println)
+      alertRDD.take(100).foreach(println)
       // convert sensor data to put object and write to HBase table column family data
       rdd.map(Sensor.convertToPut).
         saveAsHadoopDataset(jobConfig)
