@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="spark-streaming-eventhubs-example-1.5.2.2.3.3.1-4-jar-with-dependencies">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/spark-streaming-eventhubs-example-1.5.2.2.3.3.1-4-jar-with-dependencies.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

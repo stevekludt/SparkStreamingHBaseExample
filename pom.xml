@@ -50,9 +50,12 @@
 			<artifactId>hbase-server</artifactId>
 			<version>0.98.9-mapr-1503-r1</version>
 		</dependency>
-
-
 		<dependency>
+			<groupId>it.nerdammer.bigdata</groupId>
+			<artifactId>spark-hbase-connector_2.10</artifactId>
+			<version>1.0.1</version>
+		</dependency>
+				<dependency>
 			<groupId>org.scala-lang</groupId>
 			<artifactId>scala-library</artifactId>
 			<version>${scala.version}</version>
@@ -65,16 +68,20 @@
 		</dependency>
 		<dependency>
 			<groupId>org.apache.spark</groupId>
-			<artifactId>spark-sql_2.11</artifactId>
+			<artifactId>spark-sql_2.10</artifactId>
 			<version>1.5.2</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.apache.spark</groupId>
 			<artifactId>spark-streaming_2.10</artifactId>
 			<version>1.5.2</version>
 		</dependency>
-
+		<dependency>
+			<groupId>com.microsoft.eventhubs.client</groupId>
+			<artifactId>eventhubs-client</artifactId>
+			<version>0.9.1</version>
+		</dependency>
 
 		<!-- Test -->
 		<dependency>
