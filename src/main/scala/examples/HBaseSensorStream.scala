@@ -26,7 +26,7 @@ object HBaseSensorStream {
     "eventhubs.name" -> "datuh",
     "eventhubs.partition.count" -> "2",
     "eventhubs.consumergroup" -> "$default",
-    "eventhubs.checkpoint.dir" -> "/home/stevekludt/stream/sparkchelpoint",
+    "eventhubs.checkpoint.dir" -> "/home/stevekludt/stream/sparkcheckpoint",
     "eventhubs.checkpoint.interval" -> "10"
   )
 
