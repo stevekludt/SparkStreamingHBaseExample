@@ -6,7 +6,6 @@
 package examples
 
 import java.util.Properties
-import com.datastax.spark.connector.SomeColumns
 import org.apache.hadoop.hbase.util.Bytes
 import kafka.producer.{KeyedMessage, ProducerConfig, Producer}
 import org.apache.spark.SparkConf
@@ -14,7 +13,6 @@ import it.nerdammer.spark.hbase._
 import org.apache.spark.streaming.Seconds
 import org.apache.spark.streaming.StreamingContext
 import org.apache.spark.streaming.eventhubs.EventHubsUtils
-import com.datastax.spark.connector.streaming._
 
 object HBaseSensorStream {
   final val tableName = "sensor"
@@ -61,7 +59,7 @@ object HBaseSensorStream {
       .set("spark.logConf", "true")
       .set("spark.driver.port", driverPort.toString)
       .set("spark.akka.logLifecycleEvents", "true")
-      .set("spark.cassandra.connection.host", "127.0.0.1")
+      .set("spark.cassandra.connection.host", "localhost")
 
     // create a StreamingContext, the main entry point for all streaming functionality
     val ssc = new StreamingContext(sparkConf, Seconds(2))
@@ -76,7 +74,9 @@ object HBaseSensorStream {
 
     //write to casandra where keyspace = Sensor and table = events
     //TODO: Get the Write to Cassandra Working
-    sensorDStream.saveToCassandra(tableName, "events", SomeColumns("deviceID", "date", "time", "temp", "humid", "flo", "co2", "psi", "chlPPM"))
+    //was running into class compatibility issues with the google guava utility.  It's already included in hadoop
+    //and is needed by cassandra, but they are on different versions.  Could not get this resolved so going with HBASE
+    //sensorDStream.saveToCassandra(tableName, "events", SomeColumns("deviceID", "date", "time", "temp", "humid", "flo", "co2", "psi", "chlPPM"))
 
 
     sensorDStream.foreachRDD { rdd =>
