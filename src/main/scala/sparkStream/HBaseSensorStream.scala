@@ -3,7 +3,7 @@
  *  
  */
 
-package examples
+package sparkStream
 
 import java.util.Properties
 import org.apache.hadoop.hbase.util.Bytes

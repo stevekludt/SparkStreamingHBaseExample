@@ -7,7 +7,7 @@
  * http://hbase.apache.org/apidocs/org/apache/hadoop/hbase/mapreduce/TableInputFormat.html
  */
 
-package examples
+package sparkStream
 
 import scala.reflect.runtime.universe
 
