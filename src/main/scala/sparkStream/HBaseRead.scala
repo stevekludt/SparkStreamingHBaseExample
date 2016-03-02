@@ -57,8 +57,6 @@ object HBaseRead {
     val returnFields = List.fill(fieldList.length)("Option[Double]").mkString(", ")
     val stringFields = fieldList.mkString(" ")
 
-    println(stringFields)
-
     val sensorRDD = sc.hbaseTable[(String, Double, Double, Double, Double, Double, Double)](tableName)
       .select("temp", "humidity", "flo", "co2", "psi", "chlPPM")
       .inColumnFamily("data")
