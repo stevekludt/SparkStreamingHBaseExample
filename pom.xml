@@ -25,6 +25,11 @@
 			<name>Scala-tools Maven2 Repository</name>
 			<url>http://scala-tools.org/repo-releases</url>
 		</repository>
+		<repository>
+			<id>cloudera-repos</id>
+			<name>Cloudera Repos</name>
+			<url>https://repository.cloudera.com/artifactory/cloudera-repos</url>
+		</repository>
 
 		<repository>
 			<id>mapr-releases</id>
@@ -97,6 +102,11 @@
 			<artifactId>json4s-jackson_${scala.tools.version}</artifactId>
 			<version>3.2.10</version>
 		</dependency>
+        <dependency>
+            <groupId>com.cloudera.sparkts</groupId>
+            <artifactId>sparkts</artifactId>
+            <version>0.2.0</version>
+        </dependency>
 		<!-- Test -->
 		<dependency>
 			<groupId>junit</groupId>
