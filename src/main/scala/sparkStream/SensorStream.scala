@@ -5,16 +5,20 @@
 
 package sparkStream
 
-import java.util.Properties
+import java.util.{Date, Properties}
 import org.apache.hadoop.hbase.util.Bytes
 import kafka.producer.{KeyedMessage, ProducerConfig, Producer}
 import org.apache.spark.SparkConf
 import it.nerdammer.spark.hbase._
+import Utils.DateTimeUtils
 import org.apache.spark.streaming.Seconds
 import org.apache.spark.streaming.StreamingContext
+import org.apache.spark.streaming.dstream.DStream
 import org.apache.spark.streaming.eventhubs.EventHubsUtils
+import ML.StreamLinearRegression
+import com.github.nscala_time.time.Imports._
 
-object HBaseSensorStream {
+object SensorStream {
   final val tableName = "sensor"
 
   val ehParams = Map[String, String](
@@ -45,11 +49,12 @@ object HBaseSensorStream {
     }
     // my function to use spark to hbase connector
     def convertForHBase(sensor: Sensor): (String, Double, Double, Double, Double, Double, Double) = {
-      val dateTime = sensor.date + "" + sensor.time
+      val dateTime = sensor.date + "T" + sensor.time
       val rowkey = sensor.deviceID + "_" + dateTime
 
       return (rowkey, sensor.temp, sensor.humid, sensor.flo, sensor.co2, sensor.psi, sensor.chlPPM)
     }
+
   }
 
   def createContext() : StreamingContext = {
@@ -68,6 +73,11 @@ object HBaseSensorStream {
     val sensorDStream = EventHubsUtils.createUnionStream(ssc, ehParams)
       .map(s => Bytes.toString(s))
       .map(Sensor.parseSensor)
+
+    val mlStream = sensorDStream.map(row => (row.temp, DateTimeUtils.toDate(row.date, row.time), DateTimeUtils.getDateforML(row.date, row.time)))
+    //perform Stream Linear Regression on the DStream
+    StreamLinearRegression.streamPredict(ssc, mlStream)
+
 
     //this next line is for testing
     sensorDStream.print()
