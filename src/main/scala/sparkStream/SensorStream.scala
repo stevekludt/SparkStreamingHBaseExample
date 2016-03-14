@@ -80,7 +80,7 @@ object SensorStream {
 
 
     //this next line is for testing
-    sensorDStream.print()
+    mlStream.print()
 
     //write to casandra where keyspace = Sensor and table = events
     //TODO: Get the Write to Cassandra Working

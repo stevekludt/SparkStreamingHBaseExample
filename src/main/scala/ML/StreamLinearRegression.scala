@@ -29,13 +29,24 @@ object StreamLinearRegression {
       DateTimeUtils.addMinutes(x._2, FutureMinToPredict)
     }
 
-    val numFeatures = 6
+    val predictWithLabels = stream.map{x =>
+      val label = x._1
+      val features = DateTimeUtils.addMinutes(x._2, FutureMinToPredict)
+      LabeledPoint(label, features)
+    }
+
+    val numFeatures = 1
+    val iterations = 100
+    val stepSize = 0.001
 
     val model = new StreamingLinearRegressionWithSGD()
       .setInitialWeights(Vectors.zeros(numFeatures))
+      .setNumIterations(iterations)
+      .setStepSize(stepSize)
 
     model.trainOn(trainingData)
-    model.predictOn(predictionData).print()
+    //model.predictOn(predictionData).print()
+    model.predictOnValues(predictWithLabels.map(lp => (lp.label, lp.features))).print()
 
     println(trainingData)
   }

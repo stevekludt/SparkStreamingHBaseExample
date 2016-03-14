@@ -60,6 +60,7 @@ object HBaseRead {
     val sensorRDD = sc.hbaseTable[(String, Double, Double, Double, Double, Double, Double)](tableName)
       .select("temp", "humidity", "flo", "co2", "psi", "chlPPM")
       .inColumnFamily("data")
+      .withStartRow("A1234")
 
     import sqlContext.implicits._
     import org.apache.spark.sql.types.{StructType,StructField,StringType,DoubleType, TimestampType}

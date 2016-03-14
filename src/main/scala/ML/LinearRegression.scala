@@ -1,22 +1,12 @@
 package ML
 
-import java.sql.Timestamp
-
-import org.apache.spark.mllib.linalg.Vectors
 import org.apache.spark.mllib.regression.{LabeledPoint, LinearRegressionWithSGD}
-
-//import com.cloudera.sparkts._
 import java.time.{LocalDateTime, ZoneId, ZonedDateTime}
-
 import com.cloudera.sparkts._
-//import com.cloudera.sparkts.models.ARIMA
-//import com.cloudera.sparkts.stats.TimeSeriesStatisticalTests
-
 import org.apache.spark.ml.regression.LinearRegression
 import org.apache.spark.{SparkConf, SparkContext}
 import org.apache.spark.sql.{DataFrame, Row, SQLContext}
 import org.apache.spark.ml.feature.VectorAssembler
-
 import sparkStream.HBaseRead
 
 /**
@@ -52,7 +42,7 @@ object LinearRegression {
       .setMaxIter(10)
       .setRegParam(0.3)
       .setElasticNetParam(0.8)
-      .setPredictionCol("temp") //not sure if this works
+      //.setPredictionCol("temp") //not sure if this works
 
     //fit model
     val lrModel = lr.fit(trainingData)
@@ -65,6 +55,8 @@ object LinearRegression {
     trainingSummary.residuals.show()
     println(s"RMSE: ${trainingSummary.rootMeanSquaredError}")
     println(s"r2: ${trainingSummary.r2}")
+
+
 
 
 

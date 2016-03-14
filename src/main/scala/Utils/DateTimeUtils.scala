@@ -23,8 +23,10 @@ object DateTimeUtils {
     val hour = dateTime.getHourOfDay.toDouble
     val minute = dateTime.getMinuteOfHour.toDouble
     val second = dateTime.getSecondOfMinute
+    val unixTime = dateTime.getMillis / 1000
 
-    Vectors.dense(year, month, day, hour, minute, second)
+    Vectors.dense(year, month, day, hour, minute, second, unixTime)
+    Vectors.dense(unixTime)
   }
 
   def getDateMap(dateTime: DateTime) = {
@@ -35,8 +37,9 @@ object DateTimeUtils {
     val hour = dateTime.getHourOfDay.toDouble
     val minute = dateTime.getMinuteOfHour.toDouble
     val second = dateTime.getSecondOfMinute
+    val unixTime = dateTime.getMillis / 1000
 
-    (year, month, day, hour, minute, second)
+    (year, month, day, hour, minute, second, unixTime)
   }
 
   def addMinutes(dateTime: Imports.DateTime, NumMinutes: Int): linalg.Vector = {
@@ -44,7 +47,8 @@ object DateTimeUtils {
     val newDateTime = dateTime + NumMinutes.minutes  //need to add NumMinutes
     val dateMap = getDateMap(newDateTime)
 
-    Vectors.dense(dateMap._1, dateMap._2, dateMap._3, dateMap._4, dateMap._5, dateMap._6)
+    Vectors.dense(dateMap._1, dateMap._2, dateMap._3, dateMap._4, dateMap._5, dateMap._6, dateMap._7)
+    Vectors.dense(dateMap._7)
   }
 
 }
