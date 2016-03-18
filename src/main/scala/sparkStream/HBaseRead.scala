@@ -8,12 +8,9 @@ import org.apache.spark.sql.functions.explode
 import org.apache.spark.sql.types._
 import org.apache.spark.sql.functions._
 
-
 /**
   * Created by stevekludt on 1/8/16.
   */
-
-
 
 object HBaseRead {
   case class hbaseData(key: String, temp: Double, humidity: Double, flo: Double, co2: Double, psi: Double, chlPPM: Double)
@@ -42,9 +39,9 @@ object HBaseRead {
       .registerTempTable("sensorFields")
   }
 
-  def getDFOfSensorData(args: Array[String]): DataFrame = {
-    val sparkConf = new SparkConf().setAppName("HBaseRead")
-    val sc = new SparkContext(sparkConf)
+  def getDFOfSensorData(args: Array[String], sc: SparkContext): DataFrame = {
+    //val sparkConf = new SparkConf().setAppName("HBaseRead")
+    //val sc = new SparkContext(sparkConf)
     val sqlContext = new org.apache.spark.sql.SQLContext(sc)
     val tableName = "sensor"
 

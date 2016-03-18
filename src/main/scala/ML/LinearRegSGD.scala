@@ -5,6 +5,7 @@ import org.apache.spark.mllib.regression.LabeledPoint
 import org.apache.spark.mllib.regression.LinearRegressionModel
 import org.apache.spark.mllib.regression.LinearRegressionWithSGD
 import org.apache.spark.rdd.RDD
+import org.apache.spark.{SparkConf, SparkContext}
 import sparkStream.HBaseRead
 
 /**
@@ -13,8 +14,10 @@ import sparkStream.HBaseRead
 object LinearRegSGD {
 
   def main(args: Array[String]) = {
+    val sparkConf = new SparkConf().setAppName("LinearRegSGD")
+    val sc = new SparkContext(sparkConf)
 
-    val df = HBaseRead.getDFOfSensorData(Array[String](""))
+    val df = HBaseRead.getDFOfSensorData(Array[String](""), sc)
     df.show()
 
     val data = df.select("temp", "Timestamp", "ID").rdd.map { row =>

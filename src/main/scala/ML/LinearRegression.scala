@@ -14,8 +14,10 @@ import sparkStream.HBaseRead
   */
 object LinearRegression {
   def main(args: Array[String]): Unit = {
+    val sparkConf = new SparkConf().setAppName("LinearRegression")
+    val sc = new SparkContext(sparkConf)
 
-    val df = HBaseRead.getDFOfSensorData(Array[String]("")) //will eventually modify this to pass in a client or sensor
+    val df = HBaseRead.getDFOfSensorData(Array[String](""), sc) //will eventually modify this to pass in a client or sensor
     df.show()
 
     val zone = ZoneId.systemDefault()

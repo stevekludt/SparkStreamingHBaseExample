@@ -64,7 +64,7 @@ object SensorStream {
       .set("spark.logConf", "true")
       .set("spark.driver.port", driverPort.toString)
       .set("spark.akka.logLifecycleEvents", "true")
-      .set("spark.cassandra.connection.host", "localhost")
+      //.set("spark.cassandra.connection.host", "localhost")
 
     // create a StreamingContext, the main entry point for all streaming functionality
     val ssc = new StreamingContext(sparkConf, Seconds(2))
