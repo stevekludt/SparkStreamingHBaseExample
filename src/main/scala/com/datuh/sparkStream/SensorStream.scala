@@ -3,19 +3,20 @@
  *  
  */
 
-package sparkStream
+package com.datuh.sparkStream
 
 import java.util.{Date, Properties}
+
 import org.apache.hadoop.hbase.util.Bytes
-import kafka.producer.{KeyedMessage, ProducerConfig, Producer}
+import kafka.producer.{KeyedMessage, Producer, ProducerConfig}
 import org.apache.spark.SparkConf
 import it.nerdammer.spark.hbase._
-import Utils.DateTimeUtils
+import com.datuh.Utils.DateTimeUtils
 import org.apache.spark.streaming.Seconds
-import org.apache.spark.streaming.StreamingContext
+import org.apache.spark.streaming.{Minutes, StreamingContext}
 import org.apache.spark.streaming.dstream.DStream
 import org.apache.spark.streaming.eventhubs.EventHubsUtils
-import ML.StreamLinearRegression
+import com.datuh.ML.StreamLinearRegression
 import com.github.nscala_time.time.Imports._
 
 object SensorStream {
@@ -74,6 +75,9 @@ object SensorStream {
       .map(s => Bytes.toString(s))
       .map(Sensor.parseSensor)
 
+    val windowedStream = sensorDStream.window(Minutes(1))
+
+    // Perform Streaming Linear Regression
     val mlStream = sensorDStream.map(row => (row.temp, DateTimeUtils.toDate(row.date, row.time), DateTimeUtils.getDateforML(row.date, row.time)))
     //perform Stream Linear Regression on the DStream
     StreamLinearRegression.streamPredict(ssc, mlStream)

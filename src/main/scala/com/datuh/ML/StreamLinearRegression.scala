@@ -1,4 +1,4 @@
-package ML
+package com.datuh.ML
 
 /**
   * Created by stevekludt on 3/6/16.
@@ -11,9 +11,7 @@ import org.apache.spark.mllib.linalg.Vectors
 import org.apache.spark.mllib.regression.{StreamingLinearRegressionWithSGD, LabeledPoint}
 import org.apache.spark.streaming.StreamingContext
 import org.apache.spark.streaming.dstream.DStream
-import Utils.DateTimeUtils
-
-
+import com.datuh.Utils.DateTimeUtils
 
 object StreamLinearRegression {
   def streamPredict(ssc: StreamingContext, stream: DStream[(Double, Imports.DateTime, linalg.Vector)]): Unit = {

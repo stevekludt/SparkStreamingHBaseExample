@@ -1,4 +1,4 @@
-package ML
+package com.datuh.ML
 
 import org.apache.spark.mllib.regression.{LabeledPoint, LinearRegressionWithSGD}
 import java.time.{LocalDateTime, ZoneId, ZonedDateTime}
@@ -7,7 +7,7 @@ import org.apache.spark.ml.regression.LinearRegression
 import org.apache.spark.{SparkConf, SparkContext}
 import org.apache.spark.sql.{DataFrame, Row, SQLContext}
 import org.apache.spark.ml.feature.VectorAssembler
-import sparkStream.HBaseRead
+import com.datuh.sparkStream.HBaseRead
 
 /**
   * Created by stevekludt on 2/28/16.
@@ -20,6 +20,7 @@ object LinearRegression {
     val df = HBaseRead.getDFOfSensorData(Array[String](""), sc) //will eventually modify this to pass in a client or sensor
     df.show()
 
+    /*
     val zone = ZoneId.systemDefault()
     val dtIndex = DateTimeIndex.uniformFromInterval(
       ZonedDateTime.of(LocalDateTime.parse("2016-01-01T00:00:00"), zone),
@@ -28,6 +29,7 @@ object LinearRegression {
 
     val tsrdd = TimeSeriesRDD.timeSeriesRDDFromObservations(dtIndex, df,
       "Timestamp", "humidity", "temp") //needs to be updated to "key", "value"
+    */
 
     val assembler = new VectorAssembler()
       .setInputCols(Array("flo", "humidity", "co2", "psi", "chlPPM"))
@@ -38,7 +40,7 @@ object LinearRegression {
     val trainingData = output.withColumn("label", output("temp"))
     trainingData.show()
 
-    val filled = tsrdd.fill("linear")
+    //val filled = tsrdd.fill("linear")
 
     val lr = new LinearRegression()
       .setMaxIter(10)

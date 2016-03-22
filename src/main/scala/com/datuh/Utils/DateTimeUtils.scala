@@ -1,4 +1,4 @@
-package Utils
+package com.datuh.Utils
 
 import java.text.SimpleDateFormat
 import java.util.Date

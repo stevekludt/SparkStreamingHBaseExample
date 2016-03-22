@@ -1,4 +1,4 @@
-package sparkStream
+package com.datuh.sparkStream
 
 import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.{DataFrame, Row, SQLContext}

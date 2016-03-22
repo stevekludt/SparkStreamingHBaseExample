@@ -1,12 +1,12 @@
-package ML
+package com.datuh.ML
 
-import Utils.DateTimeUtils
+import com.datuh.Utils.DateTimeUtils
 import org.apache.spark.mllib.regression.LabeledPoint
 import org.apache.spark.mllib.regression.LinearRegressionModel
 import org.apache.spark.mllib.regression.LinearRegressionWithSGD
 import org.apache.spark.rdd.RDD
 import org.apache.spark.{SparkConf, SparkContext}
-import sparkStream.HBaseRead
+import com.datuh.sparkStream.HBaseRead
 
 /**
   * Created by stevekludt on 3/12/16.
@@ -59,7 +59,7 @@ object LinearRegSGD {
 
     valuesAndPreds2.foreach(println(_))
 
-    val MSE = valuesAndPreds.map{case(v, p) => math.pow((v - p), 2)}
+    val MSE = valuesAndPreds.map{case(v, p) => math.pow(v - p, 2)}
     println("training Mean Squared Error = " + MSE)
 
   }
